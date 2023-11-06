@@ -1,0 +1,43 @@
+<h1>Users List</h1>
+
+<table width="100%">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Image</th>
+        <th>Verified</th>
+    </tr>
+    <%
+        if(users.length > 0){
+            for(var i = 0; i < users.length; i++){
+                %>
+                    <tr>
+                        <td><%= users[i].name %></td>
+                        <td><%= users[i].email %></td>
+                        <td><%= users[i].mobile %></td>
+                        <td><img src="http://127.0.0.1:3000/userImages/<%= users[i].image %>" width="70px" height="70px" alt="<%= users[i].image %>"></td>
+                        <td><%
+                                if(users[i].is_verified === 0){
+                                    %>
+                                        <p>Not Verified</p>
+                                    <%
+                                }else{
+                                    %>
+                                        <p>Verified</p>
+                                    <%
+                                }
+                            %></td>
+                    </tr>
+                <%
+            }
+        }
+        else{
+            %>
+                <tr>
+                    <td colspan="5">User not found</td>
+                </tr>
+            <%
+        }
+    %>
+</table>
