@@ -208,7 +208,7 @@ const adminDashboard = async (req, res) => {
             is_admin: 0,
             $or: [
                 { name: { $regex: '.*' + search + '.*', $options: 'i' } },
-                { email: { $regex: '.*' + search + '.*', $options: 'i' } }
+                { email: { $regex: '.*' + search + '.*', $options: 'i' } },
             ]
         })
         .limit(limit)
@@ -225,70 +225,21 @@ const adminDashboard = async (req, res) => {
 
         const totalPages = Math.ceil(count / limit);
 
-        // Calculate the next page only if there are more pages available
+        // Calculate the previous page & next page only if there are more pages available
+        const previousPage = page < totalPages ? null : page - 1;
         const nextPage = page < totalPages ? page + 1 : null;
 
         res.render('dashboard', {
             users: userData,
             totalPages: totalPages,
             currentPage: page,
-            previous:page-1,
+            previous:previousPage,
             next: nextPage
         });
     } catch (error) {
         console.log(error.message);
     }
 };
-
-
-
-// const adminDashboard = async(req, res)=>{
-//     try {
-//         var search = '';
-//         if(req.query.search){
-//             search = req.query.search;
-//         }
-
-//         var page = 1;
-//         if(req.query.page){
-//             page = req.query.page;
-//         }
-//         console.log
-//         const limit = 2;
-        
-//         const userData = await User.find({
-//             is_admin:0,
-//             $or:[
-//                 {name: { $regex:'.*'+search+'.*', $options:'i' }},
-//                 {email: { $regex:'.*'+search+'.*', $options:'i' }}
-//                 // {mobile: { $regex:'.*'+search+'.*', $options:'i' }}
-//             ]
-//         })
-//         .limit(limit * 1)
-//         .skip((page - 1) * limit)
-//         .exec();    
-
-//         const count = await User.find({
-//             is_admin:0,
-//             $or:[
-//                 {name: { $regex:'.*'+search+'.*', $options:'i' }},
-//                 {email: { $regex:'.*'+search+'.*', $options:'i' }}
-//                 // {mobile: { $regex:'.*'+search+'.*', $options:'i' }}
-//             ]
-//         }).countDocuments();
-        
-//         res.render('dashboard', {
-//             users: userData,
-//             totalPages: Math.ceil(count/limit),
-//             currentPage: page,
-//             // previous: page-1,
-//             next: page+1
-//         });
-
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
 
 const newUserLoad = async (req,res)=>{
     try {
